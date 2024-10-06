@@ -12,5 +12,5 @@ This repository is for the CSAD project for the academic year 2024-2025. It cont
 
 ## Technologies and Tools
 - **Programming Language:** C#
-- **Hardware:** PC with Windows 10, Intel Core i5, 16GB RAM
+- **Hardware:** Arduino
 - **Tools:** Visual Studio, Git, GitHub
