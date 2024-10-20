@@ -1,0 +1,79 @@
+name: CI Pipeline
+
+on:
+  # Trigger the workflow on every push and pull request to any branch
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  # Job for building and testing the .NET project
+  dotnet-build:
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
+
+    steps:
+    # Check out the repository to get the project code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Set up .NET SDK
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4 
+      with:
+        dotnet-version: '8.0'
+
+    # Restore dependencies
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    # Build the project
+    - name: Build Project
+      run: dotnet build --configuration Release --no-restore
+
+    # Run tests
+    - name: Run Tests
+      run: dotnet test --no-restore --verbosity normal
+
+    # Publish the project
+    - name: Publish Project
+      run: dotnet publish --configuration Release --no-restore -o ./publish
+
+    # Upload the build artifacts
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4  
+      with:
+        name: published-artifacts
+        path: ./publish
+
+  # Job for compiling the Arduino project
+  arduino-build:
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
+
+    steps:
+      # Check out the repository to get the Arduino code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Arduino CLI for compiling Arduino code
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+        with:
+          version: '0.19.2'  # Specify the version of Arduino CLI
+
+      # Install the Arduino AVR platform for compiling for AVR (e.g., Arduino Uno)
+      - name: Install Arduino AVR platform
+        run: arduino-cli core install arduino:avr  # Install the AVR core
+
+      # Compile the Arduino project for Arduino Uno
+      - name: Build Arduino Project
+        run: arduino-cli compile --fqbn arduino:avr:uno SerialPortServer/SerialPortServer.ino
+          
+      # Upload the Arduino build artifact
+      - name: Upload Arduino Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arduino-build  # Name of the Arduino artifact
+          path: path/to/your/arduino/project/build/*
