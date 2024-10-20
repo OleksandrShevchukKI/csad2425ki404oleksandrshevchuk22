@@ -10,49 +10,45 @@ on:
       - '*'
 
 jobs:
+  # Job for building and testing the .NET project
   dotnet-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
 
     steps:
+    # Check out the repository to get the project code
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    # Set up .NET SDK
     - name: Setup .NET
       uses: actions/setup-dotnet@v4 
       with:
         dotnet-version: '8.0'
 
-    # Print current directory and list files for debugging
-    - name: List files for debugging
-      run: |
-        echo "Current directory:"
-        pwd
-        echo "Directory contents:"
-        ls -R
-
-    # Set the working directory to the location of your .NET project
+    # Restore dependencies
     - name: Restore Dependencies
       run: dotnet restore
-      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
 
+    # Build the project
     - name: Build Project
       run: dotnet build --configuration Release --no-restore
-      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
+      working-directory: SerialPort/SerialPortClient
 
+    # Run tests
     - name: Run Tests
       run: dotnet test --no-restore --verbosity normal
-      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
+      working-directory: SerialPort/SerialPortTests
 
+    # Publish the project
     - name: Publish Project
       run: dotnet publish --configuration Release --no-restore -o ./publish
-      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
 
+    # Upload the build artifacts
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4  
       with:
         name: published-artifacts
-        path: .SerialPort/SerialPortClient/publish  # Adjust this path accordingly
-
+        path: ./publish
 
   # Job for compiling the Arduino project
   arduino-build:
