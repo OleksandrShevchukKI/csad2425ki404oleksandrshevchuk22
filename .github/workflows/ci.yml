@@ -28,16 +28,15 @@ jobs:
     # Restore dependencies
     - name: Restore Dependencies
       run: dotnet restore
+      working-directory: SerialPort
 
     # Build the project
     - name: Build Project
       run: dotnet build --configuration Release --no-restore
-      working-directory: SerialPort/SerialPortClient
 
     # Run tests
     - name: Run Tests
       run: dotnet test --no-restore --verbosity normal
-      working-directory: SerialPort/SerialPortTests
 
     # Publish the project
     - name: Publish Project
