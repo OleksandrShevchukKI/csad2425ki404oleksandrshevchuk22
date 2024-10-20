@@ -10,37 +10,47 @@ on:
       - '*'
 
 jobs:
-  # Job for building and testing the .NET project
   dotnet-build:
-    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
+    runs-on: ubuntu-latest
 
     steps:
-    # Check out the repository to get the project code
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Set up .NET SDK
     - name: Setup .NET
       uses: actions/setup-dotnet@v4 
       with:
         dotnet-version: '8.0'
 
-    # Restore dependencies
-    - name: Restore Dependencies
+    # List the contents of the directory for debugging
+    - name: List files for debugging
+      run: |
+        echo "Current directory:"
+        pwd
+        echo "Directory contents:"
+        ls -R
+
+    # Restore dependencies for SerialPortClient
+    - name: Restore Dependencies for SerialPortClient
       run: dotnet restore
-      working-directory: SerialPort
+      working-directory: SerialPort/SerialPortClient
 
-    # Build the project
-    - name: Build Project
+    # Build the SerialPortClient project
+    - name: Build SerialPortClient Project
       run: dotnet build --configuration Release --no-restore
+      working-directory: SerialPort/SerialPortClient
 
-    # Run tests
-    - name: Run Tests
-      run: dotnet test --no-restore --verbosity normal
+    # Run tests for the SerialPortTests project
+    - name: Restore and Run Tests
+      run: |
+        dotnet restore
+        dotnet test --no-restore --verbosity normal
+      working-directory: SerialPort/SerialPortTests
 
-    # Publish the project
-    - name: Publish Project
+    # Publish the SerialPortClient project
+    - name: Publish SerialPortClient Project
       run: dotnet publish --configuration Release --no-restore -o ./publish
+      working-directory: SerialPort/SerialPortClient
 
     # Upload the build artifacts
     - name: Upload Artifacts
