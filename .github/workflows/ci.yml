@@ -69,7 +69,7 @@ jobs:
 
       # Compile the Arduino project for Arduino Uno
       - name: Build Arduino Project
-        run: arduino-cli compile --fqbn arduino:avr:uno SerialPortServer/SerialPortServer.ino
+        run: arduino-cli compile --fqbn arduino:avr:uno SerialPort/SerialPortServer/SerialPortServer.ino
           
       # Upload the Arduino build artifact
       - name: Upload Arduino Build Artifact
