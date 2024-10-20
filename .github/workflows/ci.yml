@@ -22,28 +22,36 @@ jobs:
       with:
         dotnet-version: '8.0'
 
-    # Set the working directory to where your .NET project is located
+    # Print current directory and list files for debugging
+    - name: List files for debugging
+      run: |
+        echo "Current directory:"
+        pwd
+        echo "Directory contents:"
+        ls -R
+
+    # Set the working directory to the location of your .NET project
     - name: Restore Dependencies
       run: dotnet restore
-      working-directory: SerialPort/SerialPortClient
+      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
 
     - name: Build Project
       run: dotnet build --configuration Release --no-restore
-      working-directory: .SerialPort/SerialPortClient
+      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
 
     - name: Run Tests
       run: dotnet test --no-restore --verbosity normal
-      working-directory: SerialPort/SerialPortClient
+      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
 
     - name: Publish Project
       run: dotnet publish --configuration Release --no-restore -o ./publish
-      working-directory: SerialPort/SerialPortClient
+      working-directory: .SerialPort/SerialPortClient  # Adjust this path accordingly
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4  
       with:
         name: published-artifacts
-        path: SerialPort/SerialPortClient/publish  # Adjust this path accordingly
+        path: .SerialPort/SerialPortClient/publish  # Adjust this path accordingly
 
 
   # Job for compiling the Arduino project
