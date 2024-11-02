@@ -3,6 +3,7 @@ This repository is for the CSAD project for the academic year 2024-2025. It cont
 
 ## Task Details
 **Task 1:** Initiate GIT repository
+**Task 2:** Create a simple communication schema SW(client) <-> UART <-> HW(server). Create YML file
 
 ## Student Details
 - **Name:** Oleksandr Shevchuk
