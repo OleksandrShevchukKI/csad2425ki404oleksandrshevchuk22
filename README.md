@@ -16,13 +16,14 @@ This repository is for the CSAD project for the academic year 2024-2025. It cont
 - **Hardware:** Arduino
 - **Tools:** Visual Studio, Git, GitHub
 
-## Project Details
-### How to Build the Project
+## How to Build the Project
+
 1. **Clone the repository:**
     ```sh
     git clone https://github.com/OleksandrShevchukKI/csad2425ki404oleksandrshevchuk22.git
     cd csad2425ki404oleksandrshevchuk22
     ```
+
 2. **Open the solution file in Visual Studio:**
     - Navigate to the `SerialPort` directory and open `SerialPort.sln`.
 
@@ -48,3 +49,7 @@ This repository is for the CSAD project for the academic year 2024-2025. It cont
     - Open the Arduino IDE, navigate to `File` > `Open` and open the `SerialPort/SerialPortServer/SerialPortServer.ino` file.
     - Select the correct board and port from the `Tools` menu.
     - Click the `Upload` button to upload the sketch to the Arduino board.
+
+## Version Number
+
+- **Current Version:** 2.0.0
