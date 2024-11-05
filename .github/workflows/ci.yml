@@ -22,6 +22,10 @@ jobs:
       with:
         dotnet-version: '8.0'
 
+    # Install the required MAUI workloads
+    - name: Install MAUI Workloads
+      run: dotnet workload install maui-android
+
     # List the contents of the directory for debugging
     - name: List files for debugging
       run: |
