@@ -30,27 +30,20 @@ jobs:
         echo "Directory contents:"
         ls -R
 
-    # Restore dependencies for SerialPortClient
-    - name: Restore Dependencies for SerialPortClient
+    # Restore dependencies for the RockPaperScissors project
+    - name: Restore Dependencies
       run: dotnet restore
-      working-directory: SerialPort/SerialPortClient
+      working-directory: RockPaperScissorsClient
 
-    # Build the SerialPortClient project
-    - name: Build SerialPortClient Project
+    # Build the RockPaperScissors project
+    - name: Build RockPaperScissors Project
       run: dotnet build --configuration Release --no-restore
-      working-directory: SerialPort/SerialPortClient
+      working-directory: RockPaperScissorsClient
 
-    # Run tests for the SerialPortTests project
-    - name: Restore and Run Tests
-      run: |
-        dotnet restore
-        dotnet test --no-restore --verbosity normal
-      working-directory: SerialPort/SerialPortTests
-
-    # Publish the SerialPortClient project
-    - name: Publish SerialPortClient Project
+    # Publish the RockPaperScissors project
+    - name: Publish RockPaperScissors Project
       run: dotnet publish --configuration Release --no-restore -o ./publish
-      working-directory: SerialPort/SerialPortClient
+      working-directory: RockPaperScissorsClient
 
     # Upload the build artifacts
     - name: Upload Artifacts
@@ -59,7 +52,7 @@ jobs:
         name: published-artifacts
         path: ./publish
 
-  # Job for compiling the Arduino project
+  # Job for compiling the Arduino project (if applicable)
   arduino-build:
     runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
 
@@ -68,23 +61,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Set up Arduino CLI for compiling Arduino code
+      # Set up Arduino CLI for compiling Arduino code (if used)
       - name: Set up Arduino CLI
         uses: arduino/setup-arduino-cli@v1
         with:
           version: '0.19.2'  # Specify the version of Arduino CLI
 
-      # Install the Arduino AVR platform for compiling for AVR (e.g., Arduino Uno)
+      # Install the Arduino AVR platform for compiling for AVR (if used)
       - name: Install Arduino AVR platform
         run: arduino-cli core install arduino:avr  # Install the AVR core
 
-      # Compile the Arduino project for Arduino Uno
+      # Compile the Arduino project for Arduino Uno (if applicable)
       - name: Build Arduino Project
-        run: arduino-cli compile --fqbn arduino:avr:uno SerialPort/SerialPortServer/SerialPortServer.ino
+        run: arduino-cli compile --fqbn arduino:avr:uno RockPaperScissors/RockPaperScissorsServer/RockPaperScissorsServer.ino
           
       # Upload the Arduino build artifact
       - name: Upload Arduino Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: arduino-build  # Name of the Arduino artifact
-          path: SerialPort/SerialPortServer/build/*
+          path: RockPaperScissors/RockPaperScissorsServer/build/*

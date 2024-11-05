@@ -1,0 +1,12 @@
+﻿<configuration>
+	<game>
+		<choices>
+			<choice>Rock</choice>
+			<choice>Paper</choice>
+			<choice>Scissors</choice>
+		</choices>
+		<serialPort>COM5</serialPort>
+		<baudRate>9600</baudRate>
+		<playMode>ManVsAI</playMode>
+	</game>
+</configuration>
