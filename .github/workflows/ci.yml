@@ -30,10 +30,10 @@ jobs:
         echo "Directory contents:"
         ls -R
 
-    # Restore dependencies for the RockPaperScissors project
+    # Restore dependencies for the RockPaperScissors 
     - name: Restore Dependencies for RockPaperScissorsClient
       run: dotnet restore
-      working-directory: RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Build the RockPaperScissorsClient project
     - name: Build RockPaperScissorsClient Project
@@ -43,7 +43,7 @@ jobs:
     # Publish the RockPaperScissorsClient project
     - name: Publish RockPaperScissorsClient Project
       run: dotnet publish --configuration Release --no-restore -o ./publish
-      working-directory: RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Upload the build artifacts
     - name: Upload Artifacts
