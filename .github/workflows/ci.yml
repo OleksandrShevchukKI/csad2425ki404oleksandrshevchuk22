@@ -34,7 +34,7 @@ jobs:
       run: |
         dotnet workload install maui-android
         dotnet add package Microsoft.NETCore.App.Runtime.win-x64 --version 8.0.0
-      working-directory: RockPaperScissors/RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
 
     # Restore dependencies for the RockPaperScissors 
     - name: Restore Dependencies for RockPaperScissorsClient
