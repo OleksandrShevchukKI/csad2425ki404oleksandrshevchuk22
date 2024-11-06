@@ -74,7 +74,4 @@
 		<PackageReference Include="Microsoft.iOS.Sdk" Version="18.0.0" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(OS)' != 'OSX'">
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-preview.8.1234" />
-	</ItemGroup>
 </Project>
