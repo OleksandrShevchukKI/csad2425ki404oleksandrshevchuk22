@@ -23,7 +23,9 @@ jobs:
 
     # Install the required MAUI workloads
     - name: Install MAUI Workloads
-      run: dotnet workload install maui-android
+      run: |
+        dotnet workload install maui-android
+        dotnet add package Microsoft.NETCore.App.Runtime.win-x64 --version 8.0.0
 
     # List the contents of the directory for debugging
     - name: List files for debugging
@@ -36,13 +38,13 @@ jobs:
     # Restore dependencies for the RockPaperScissorsClient
     - name: Restore Dependencies for RockPaperScissorsClient
       run: dotnet restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
 
     # Publish the RockPaperScissorsClient project
     - name: Publish RockPaperScissorsClient Project
-      run: dotnet publish --configuration Release --no-restore -o ./publish
-      working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
+      run: dotnet publish --configuration Release --no-restore --runtime win-x64 -o ./publish
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Upload the build artifacts
     - name: Upload Artifacts
