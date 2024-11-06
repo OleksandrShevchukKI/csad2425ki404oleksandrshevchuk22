@@ -10,7 +10,7 @@ on:
 
 jobs:
   dotnet-build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: '8.0'
 
-    # Install the required MAUI workloads
-    - name: Install MAUI Workloads
+    # Install the required MAUI workloads for Android and specify the runtime identifier
+    - name: Install MAUI Workloads for Android
       run: |
         dotnet workload install maui-android
         dotnet add package Microsoft.NETCore.App.Runtime.win-x64 --version 8.0.0
@@ -35,27 +35,27 @@ jobs:
         echo "Directory contents:"
         ls -R
 
-    # Restore dependencies for the RockPaperScissorsClient
+    # Restore dependencies for the RockPaperScissors 
     - name: Restore Dependencies for RockPaperScissorsClient
       run: dotnet restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Build the RockPaperScissorsClient project
     - name: Build RockPaperScissorsClient Project
       run: dotnet build --configuration Release --no-restore --runtime win-x64
-      working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Publish the RockPaperScissorsClient project
     - name: Publish RockPaperScissorsClient Project
       run: dotnet publish --configuration Release --no-restore --runtime win-x64 -o ./publish
-      working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
+      working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Upload the build artifacts
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4  
       with:
         name: published-artifacts
-        path: ./publish
+        path: RockPaperScissors/RockPaperScissorsClient/publish
 
   # Job for compiling the Arduino project (if applicable)
   arduino-build:
