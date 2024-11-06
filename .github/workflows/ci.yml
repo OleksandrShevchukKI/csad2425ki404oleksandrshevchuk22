@@ -20,13 +20,7 @@ jobs:
       uses: actions/setup-dotnet@v4 
       with:
         dotnet-version: '8.0'
-
-    # Install the required MAUI workloads for Android and specify the runtime identifier
-    - name: Install MAUI Workloads for Android
-      run: |
-        dotnet workload install maui-android
-        dotnet add package Microsoft.NETCore.App.Runtime.win-x64 --version 8.0.0
-
+        
     # List the contents of the directory for debugging
     - name: List files for debugging
       run: |
@@ -34,6 +28,12 @@ jobs:
         pwd
         echo "Directory contents:"
         ls -R
+
+    # Install the required MAUI workloads for Android and specify the runtime identifier
+    - name: Install MAUI Workloads for Android
+      run: |
+        dotnet workload install maui-android
+        dotnet add package Microsoft.NETCore.App.Runtime.win-x64 --version 8.0.0
 
     # Restore dependencies for the RockPaperScissors 
     - name: Restore Dependencies for RockPaperScissorsClient
