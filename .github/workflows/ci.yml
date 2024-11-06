@@ -1,7 +1,6 @@
 name: CI Pipeline
 
 on:
-  # Trigger the workflow on every push and pull request to any branch
   push:
     branches:
       - '*'
@@ -34,7 +33,7 @@ jobs:
         echo "Directory contents:"
         ls -R
 
-    # Restore dependencies for the RockPaperScissors 
+    # Restore dependencies for the RockPaperScissorsClient
     - name: Restore Dependencies for RockPaperScissorsClient
       run: dotnet restore
       working-directory: RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient
@@ -58,30 +57,25 @@ jobs:
 
   # Job for compiling the Arduino project (if applicable)
   arduino-build:
-    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
+    runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository to get the Arduino code
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      # Set up Arduino CLI for compiling Arduino code (if used)
-      - name: Set up Arduino CLI
-        uses: arduino/setup-arduino-cli@v1
-        with:
-          version: '0.19.2'  # Specify the version of Arduino CLI
+    - name: Set up Arduino CLI
+      uses: arduino/setup-arduino-cli@v1
+      with:
+        version: '0.19.2'
 
-      # Install the Arduino AVR platform for compiling for AVR (if used)
-      - name: Install Arduino AVR platform
-        run: arduino-cli core install arduino:avr  # Install the AVR core
+    - name: Install Arduino AVR platform
+      run: arduino-cli core install arduino:avr
 
-      # Compile the Arduino project for Arduino Uno (if applicable)
-      - name: Build Arduino Project
-        run: arduino-cli compile --fqbn arduino:avr:uno RockPaperScissors/RockPaperScissorsServer/RockPaperScissorsServer.ino
-          
-      # Upload the Arduino build artifact
-      - name: Upload Arduino Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: arduino-build  # Name of the Arduino artifact
-          path: RockPaperScissors/RockPaperScissorsServer/build/*
+    - name: Build Arduino Project
+      run: arduino-cli compile --fqbn arduino:avr:uno RockPaperScissors/RockPaperScissorsServer/RockPaperScissorsServer.ino
+
+    - name: Upload Arduino Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: arduino-build
+        path: RockPaperScissors/RockPaperScissorsServer/build/*
