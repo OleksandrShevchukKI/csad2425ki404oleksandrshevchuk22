@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RockPaperScissorsClient.SecondPlayerPage"
+             Title="SecondPlayerPage">
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <Label Text="Second Player, make your choice:" FontSize="16" Margin="10"/>
+        <Button Text="Rock" Clicked="ChoiceButton_Clicked" CommandParameter="Rock" WidthRequest="100" Margin="5"/>
+        <Button Text="Paper" Clicked="ChoiceButton_Clicked" CommandParameter="Paper" WidthRequest="100" Margin="5"/>
+        <Button Text="Scissors" Clicked="ChoiceButton_Clicked" CommandParameter="Scissors" WidthRequest="100" Margin="5"/>
+    </VerticalStackLayout>
+</ContentPage>
