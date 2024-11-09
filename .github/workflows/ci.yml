@@ -30,6 +30,12 @@ jobs:
       run: dotnet restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
+    # Clean the project to ensure a fresh build
+    - name: Clean
+      run: dotnet clean RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release
+      working-directory: RockPaperScissors/RockPaperScissorsClient
+
+    # Build the project
     - name: Build
       run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-android --no-restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
