@@ -13,29 +13,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4 
-      with:
-        dotnet-version: '8.0'
-
-    # Install the required MAUI workloads
-    - name: Install .NET MAUI
-      run: dotnet workload install maui
-
-    # Restore dependencies for the RockPaperScissorsClient
-    - name: Restore Dependencies
-      run: dotnet restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient
-
-    # Build the project for Windows
-    - name: Build for Windows
-      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient
-
-    
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 8.0.x
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+      - name: Build
+        run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f:net8.0-windows10.0.19041.0
+        working-directory: RockPaperScissors/RockPaperScissorsClient
 
   # Job for compiling the Arduino project (if applicable)
   arduino-build:
