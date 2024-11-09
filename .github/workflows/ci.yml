@@ -32,8 +32,10 @@ jobs:
 
     # Build the project for Windows
     - name: Build for Windows
-      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-windows --no-restore
+      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
+
+    
 
   # Job for compiling the Arduino project (if applicable)
   arduino-build:
