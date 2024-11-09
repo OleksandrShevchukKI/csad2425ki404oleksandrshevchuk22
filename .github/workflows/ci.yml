@@ -27,18 +27,24 @@ jobs:
 
     # Restore dependencies for the RockPaperScissorsClient
     - name: Restore Dependencies
-      run: dotnet restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient
+      run: dotnet restore RockPaperScissorsClient/RockPaperScissorsClient.csproj --runtime win-x64 --runtime android-arm64 --runtime ios-arm64 --runtime maccatalyst-x64
 
-     # Restore dependencies for Windows
-    - name: Restore Dependencies for Windows
-      run: dotnet restore RockPaperScissorsClient/RockPaperScissorsClient.csproj --runtime win-x64
-      working-directory: RockPaperScissors/RockPaperScissorsClient
+    # Build the project for Android
+    - name: Build for Android
+      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-android --no-restore
+
+    # Build the project for iOS
+    - name: Build for iOS
+      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-ios --no-restore
+
+    # Build the project for Mac Catalyst
+    - name: Build for Mac Catalyst
+      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-maccatalyst --no-restore
 
     # Build the project for Windows
     - name: Build for Windows
       run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient
+
 
   # Job for compiling the Arduino project (if applicable)
   arduino-build:
