@@ -35,11 +35,6 @@ jobs:
       run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-ios --no-restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
-    # Build the project for Mac Catalyst
-    - name: Build for Mac Catalyst
-      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-maccatalyst --no-restore
-      working-directory: RockPaperScissors/RockPaperScissorsClient
-
     # Build the project for Windows
     - name: Build for Windows
       run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore
