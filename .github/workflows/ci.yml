@@ -27,17 +27,17 @@ jobs:
 
     # Restore dependencies for the RockPaperScissorsClient
     - name: Restore Dependencies
-      run: dotnet restore
+      run: dotnet restore RockPaperScissorsClient/RockPaperScissorsClient.csproj -r win-x64
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Clean the project to ensure a fresh build
     - name: Clean
-      run: dotnet clean RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release
+      run: dotnet clean RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -r win-x64
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Build the project
     - name: Build
-      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-android --no-restore
+      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-android -r win-x64 --no-restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
   # Job for compiling the Arduino project (if applicable)
