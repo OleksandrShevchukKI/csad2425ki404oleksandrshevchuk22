@@ -30,7 +30,7 @@ jobs:
       run: dotnet restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
-     # Restore dependencies for Windows
+    # Restore dependencies for Windows
     - name: Restore Dependencies for Windows
       run: dotnet restore RockPaperScissorsClient/RockPaperScissorsClient.csproj --runtime win-x64
       working-directory: RockPaperScissors/RockPaperScissorsClient
