@@ -30,14 +30,9 @@ jobs:
       run: dotnet restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
-    # Restore dependencies for Windows
-    - name: Restore Dependencies for Windows
-      run: dotnet restore RockPaperScissorsClient/RockPaperScissorsClient.csproj --runtime win-x64
-      working-directory: RockPaperScissors/RockPaperScissorsClient
-
-    # Build the project for Windows
-    - name: Build for Windows
-      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore
+    # Build the project for android
+    - name: Build for android
+      run: dotnet build MauiGithubActionsSample/MauiGithubActionsSample.csproj -c Release -f net8.0-android --no-restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
   # Job for compiling the Arduino project (if applicable)
