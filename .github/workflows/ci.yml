@@ -30,9 +30,9 @@ jobs:
       run: dotnet restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
-    # Build the project for iOS
-    - name: Build for iOS
-      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-ios --no-restore
+     # Restore dependencies for Windows
+    - name: Restore Dependencies for Windows
+      run: dotnet restore RockPaperScissorsClient/RockPaperScissorsClient.csproj --runtime win-x64
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
     # Build the project for Windows
