@@ -32,7 +32,7 @@ jobs:
 
     # Build the project for android
     - name: Build for android
-      run: dotnet build MauiGithubActionsSample/MauiGithubActionsSample.csproj -c Release -f net8.0-android --no-restore
+      run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f net8.0-android --no-restore
       working-directory: RockPaperScissors/RockPaperScissorsClient
 
   # Job for compiling the Arduino project (if applicable)
