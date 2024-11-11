@@ -3,6 +3,9 @@ using System.Xml.Linq;
 
 namespace RockPaperScissorsClient
 {
+    /// <summary>
+    /// The main page of the RockPaperScissorsClient application.
+    /// </summary>
     public partial class MainPage : ContentPage
     {
         private SerialPort _serialPort;
@@ -11,6 +14,9 @@ namespace RockPaperScissorsClient
         private string _firstPlayerChoice;
         private string _secondPlayerChoice;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPage"/> class.
+        /// </summary>
         public MainPage()
         {
             InitializeComponent();
@@ -19,8 +25,14 @@ namespace RockPaperScissorsClient
             InitializePickers();
         }
 
+        /// <summary>
+        /// Gets the choices available for the game.
+        /// </summary>
         public string[] Choices => _choices;
 
+        /// <summary>
+        /// Loads the configuration from the config.xml file.
+        /// </summary>
         private void LoadConfiguration()
         {
             string configFilePath = Path.Combine(FileSystem.AppDataDirectory, "config.xml");
@@ -35,6 +47,9 @@ namespace RockPaperScissorsClient
             _serialPort.DataReceived += SerialPort_DataReceived;
         }
 
+        /// <summary>
+        /// Initializes the pickers with the game choices and play modes.
+        /// </summary>
         private void InitializePickers()
         {
             foreach (var choice in _choices)
@@ -60,17 +75,26 @@ namespace RockPaperScissorsClient
             }
         }
 
+        /// <summary>
+        /// Initializes the serial port.
+        /// </summary>
         private void InitializeSerialPort()
         {
             _serialPort.Open();
         }
 
+        /// <summary>
+        /// Handles the data received from the serial port.
+        /// </summary>
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string data = _serialPort.ReadLine();
             MainThread.BeginInvokeOnMainThread(() => ProcessResponse(data));
         }
 
+        /// <summary>
+        /// Handles the Play button click event.
+        /// </summary>
         private void PlayButton_Click(object sender, EventArgs e)
         {
             if (PlayModePicker.SelectedIndex == 0 && UserChoicePicker.SelectedIndex != -1)
@@ -98,12 +122,18 @@ namespace RockPaperScissorsClient
             }
         }
 
+        /// <summary>
+        /// Sets the choice of the second player.
+        /// </summary>
         public void SetSecondPlayerChoice(string choice)
         {
             _secondPlayerChoice = choice;
             _serialPort.WriteLine($"{_firstPlayerChoice},{_secondPlayerChoice},ManVsMan");
         }
 
+        /// <summary>
+        /// Processes the response received from the serial port.
+        /// </summary>
         private void ProcessResponse(string data)
         {
             string[] parts = data.Split(',');
@@ -116,19 +146,31 @@ namespace RockPaperScissorsClient
                 ResultLabel.Text = $"Play mode: {mode}\nFirst Player chose: {firstChoice}\nSecond Player chose: {secondChoice}\nResult: {result}";
             }
             else
+            {
                 ResultLabel.Text = data;
+            }
         }
 
+        /// <summary>
+        /// Handles the New Game button click event.
+        /// </summary>
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             ResultLabel.Text = string.Empty;
             UserChoicePicker.SelectedIndex = -1;
         }
 
+        /// <summary>
+        /// Handles the Save button click event.
+        /// </summary>
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            SaveGame(); 
+            SaveGame();
         }
+
+        /// <summary>
+        /// Saves the game state to a file.
+        /// </summary>
         private void SaveGame()
         {
             var saveData = new XDocument(
@@ -139,13 +181,20 @@ namespace RockPaperScissorsClient
                 )
             );
             string savedGameFilePath = Path.Combine(FileSystem.AppDataDirectory, "saved_game.xml");
-            // Зберігаємо у файл
             saveData.Save(savedGameFilePath);
         }
+
+        /// <summary>
+        /// Handles the Load button click event.
+        /// </summary>
         private void LoadButton_Click(object sender, EventArgs e)
         {
             LoadGame();
         }
+
+        /// <summary>
+        /// Loads the game state from a file.
+        /// </summary>
         private void LoadGame()
         {
             string savedGameFilePath = Path.Combine(FileSystem.AppDataDirectory, "saved_game.xml");
