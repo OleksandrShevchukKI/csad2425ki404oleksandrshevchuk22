@@ -1,7 +1,6 @@
 name: CI Pipeline
 
 on:
-  # Trigger the workflow on every push and pull request to any branch
   push:
     branches:
       - '*'
@@ -11,80 +10,41 @@ on:
 
 jobs:
   dotnet-build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4 
-      with:
-        dotnet-version: '8.0'
-
-    # List the contents of the directory for debugging
-    - name: List files for debugging
-      run: |
-        echo "Current directory:"
-        pwd
-        echo "Directory contents:"
-        ls -R
-
-    # Restore dependencies for SerialPortClient
-    - name: Restore Dependencies for SerialPortClient
-      run: dotnet restore
-      working-directory: SerialPort/SerialPortClient
-
-    # Build the SerialPortClient project
-    - name: Build SerialPortClient Project
-      run: dotnet build --configuration Release --no-restore
-      working-directory: SerialPort/SerialPortClient
-
-    # Run tests for the SerialPortTests project
-    - name: Restore and Run Tests
-      run: |
-        dotnet restore
-        dotnet test --no-restore --verbosity normal
-      working-directory: SerialPort/SerialPortTests
-
-    # Publish the SerialPortClient project
-    - name: Publish SerialPortClient Project
-      run: dotnet publish --configuration Release --no-restore -o ./publish
-      working-directory: SerialPort/SerialPortClient
-
-    # Upload the build artifacts
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4  
-      with:
-        name: published-artifacts
-        path: ./publish
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 8.0.x
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+      - name: Build
+        run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f:net8.0-windows10.0.19041.0
+        working-directory: RockPaperScissors/RockPaperScissorsClient
 
   # Job for compiling the Arduino project
   arduino-build:
-    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for CI
+    runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository to get the Arduino code
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      # Set up Arduino CLI for compiling Arduino code
-      - name: Set up Arduino CLI
-        uses: arduino/setup-arduino-cli@v1
-        with:
-          version: '0.19.2'  # Specify the version of Arduino CLI
+    - name: Set up Arduino CLI
+      uses: arduino/setup-arduino-cli@v1
+      with:
+        version: '0.19.2'
 
-      # Install the Arduino AVR platform for compiling for AVR (e.g., Arduino Uno)
-      - name: Install Arduino AVR platform
-        run: arduino-cli core install arduino:avr  # Install the AVR core
+    - name: Install Arduino AVR platform
+      run: arduino-cli core install arduino:avr
 
-      # Compile the Arduino project for Arduino Uno
-      - name: Build Arduino Project
-        run: arduino-cli compile --fqbn arduino:avr:uno SerialPort/SerialPortServer/SerialPortServer.ino
-          
-      # Upload the Arduino build artifact
-      - name: Upload Arduino Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: arduino-build  # Name of the Arduino artifact
-          path: SerialPort/SerialPortServer/build/*
+    - name: Build Arduino Project
+      run: arduino-cli compile --fqbn arduino:avr:uno RockPaperScissors/RockPaperScissorsServer/RockPaperScissorsServer.ino
+
+    - name: Upload Arduino Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: arduino-build
+        path: RockPaperScissors/RockPaperScissorsServer/build/*
