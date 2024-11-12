@@ -2,8 +2,15 @@
 
 namespace RockPaperScissorsClient
 {
+    /// <summary>
+    /// The main class for configuring and creating the MAUI application.
+    /// </summary>
     public static class MauiProgram
     {
+        /// <summary>
+        /// Creates the MAUI application.
+        /// </summary>
+        /// <returns>The created MAUI application.</returns>
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -16,7 +23,7 @@ namespace RockPaperScissorsClient
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
