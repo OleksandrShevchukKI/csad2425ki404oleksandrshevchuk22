@@ -2,10 +2,6 @@
 
 String choices[] = {"Rock", "Paper", "Scissors"};
 
-void setup() {
-  Serial.begin(9600);
-}
-
 String getRandomChoice() {
   int index = random(3);
   return choices[index];
@@ -33,7 +29,7 @@ String getResult(String firstChoice, String secondChoice) {
   }
 }
 
-void loop() {
+void gameLoop() {
   if (Serial.available() > 0) {
     String input = Serial.readStringUntil('\n');
     input.trim();
@@ -41,7 +37,6 @@ void loop() {
     String firstChoice, secondChoice, playMode, inputPlayMode;
     int firstSeparatorIndex = input.indexOf(',');
     int secondSeparatorIndex = input.indexOf(',', firstSeparatorIndex + 1);
-    
     
     if (firstSeparatorIndex > 0 && secondSeparatorIndex > firstSeparatorIndex) {
       firstChoice = input.substring(0, firstSeparatorIndex);
@@ -69,3 +64,11 @@ void loop() {
     Serial.println(playMode + "," + firstChoice + "," + secondChoice + "," + result);
   }
 }
+
+// void setup() {
+//   Serial.begin(9600);
+// }
+
+// void loop(){
+//   gameLoop();
+// }
