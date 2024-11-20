@@ -1,21 +1,23 @@
-using RockPaperScissorsClient;
+using NUnit.Framework;
 
 namespace RockPaperScissorsClient.Test
 {
     public class Tests
     {
         private MainPageViewModel _viewModel;
+        private MockSerialPortService _mockSerialPortService;
 
         [SetUp]
         public void Setup()
         {
-            _viewModel = new MainPageViewModel();
+            _mockSerialPortService = new MockSerialPortService();
+            _viewModel = new MainPageViewModel(_mockSerialPortService);
         }
 
         [Test]
         public void TestChoicesInitialization()
         {
-            Assert.AreEqual(3, _viewModel.Choices.Count);
+            Assert.That(_viewModel.Choices.Count, Is.EqualTo(3));
             Assert.Contains("Rock", _viewModel.Choices);
             Assert.Contains("Paper", _viewModel.Choices);
             Assert.Contains("Scissors", _viewModel.Choices);
@@ -25,30 +27,43 @@ namespace RockPaperScissorsClient.Test
         public void TestSetPlayMode()
         {
             _viewModel.PlayMode = "ManVsMan";
-            Assert.AreEqual("ManVsMan", _viewModel.PlayMode);
+            Assert.That(_viewModel.PlayMode, Is.EqualTo("ManVsMan"));
         }
 
         [Test]
         public void TestSetFirstPlayerChoice()
         {
             _viewModel.FirstPlayerChoice = "Rock";
-            Assert.AreEqual("Rock", _viewModel.FirstPlayerChoice);
+            Assert.That(_viewModel.FirstPlayerChoice, Is.EqualTo("Rock"));
         }
 
         [Test]
         public void TestSetSecondPlayerChoice()
         {
             _viewModel.SecondPlayerChoice = "Paper";
-            Assert.AreEqual("Paper", _viewModel.SecondPlayerChoice);
+            Assert.That(_viewModel.SecondPlayerChoice, Is.EqualTo("Paper"));
         }
 
         [Test]
         public void TestNewGame()
         {
             _viewModel.NewGame();
-            Assert.AreEqual(string.Empty, _viewModel.FirstPlayerChoice);
-            Assert.AreEqual(string.Empty, _viewModel.SecondPlayerChoice);
-            Assert.AreEqual("ManVsAI", _viewModel.PlayMode);
+            Assert.That(_viewModel.FirstPlayerChoice, Is.EqualTo(string.Empty));
+            Assert.That(_viewModel.SecondPlayerChoice, Is.EqualTo(string.Empty));
+            Assert.That(_viewModel.PlayMode, Is.EqualTo("ManVsAI"));
+        }
+
+        [Test]
+        public void TestPlayManVsAI()
+        {
+            var response = "ManVsAI,Rock,Scissors,Win";
+            _viewModel.FirstPlayerChoice = "Rock";
+            _viewModel.PlayMode = "ManVsAI";
+            _mockSerialPortService.AddResponse(response);
+            _viewModel.Play();
+            _mockSerialPortService.InvokeDataReceived(new CustomSerialDataReceivedEventArgs(response));
+
+            Assert.That(_mockSerialPortService.ReadLine(), Is.EqualTo(response));
         }
     }
 }

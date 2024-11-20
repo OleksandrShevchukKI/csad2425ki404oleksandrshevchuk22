@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using MauiGithubActionsSample.Interfaces;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO.Ports;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,7 @@ namespace RockPaperScissorsClient
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        private SerialPort _serialPort;
+        private readonly ISerialPortService _serialPortService;
         private string[] _choices;
         private string _playMode;
         private string _firstPlayerChoice;
@@ -17,10 +18,12 @@ namespace RockPaperScissorsClient
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainPageViewModel()
+        public MainPageViewModel() { }
+        public MainPageViewModel(ISerialPortService serialPortService) : this()
         {
+            _serialPortService = serialPortService;
+            _serialPortService.DataReceived += SerialPort_DataReceived;
             LoadConfiguration();
-            InitializeSerialPort();
             PlayCommand = new Command(Play);
             SaveGameCommand = new Command(SaveGame);
             LoadGameCommand = new Command(LoadGame);
@@ -64,7 +67,7 @@ namespace RockPaperScissorsClient
             }
         }
 
-        public string Result { get; set; }
+        public string Result { get; private set; }
 
         public ICommand PlayCommand { get; }
         public ICommand SaveGameCommand { get; }
@@ -80,42 +83,38 @@ namespace RockPaperScissorsClient
             {
                 Choices.Add(choice);
             }
-            _serialPort = new SerialPort("COM5", 9600);
-            _serialPort.DataReceived += SerialPort_DataReceived;
-        }
-
-        private void InitializeSerialPort()
-        {
-            if (!_serialPort.IsOpen)
-            {
-                _serialPort.Open();
-            }
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string data = _serialPort.ReadLine();
+            string data = _serialPortService.ReadLine();
             MainThread.BeginInvokeOnMainThread(() => ProcessResponse(data));
         }
 
         public void Play()
         {
+            if (!_serialPortService.IsOpen)
+            {
+                _serialPortService.Open();
+            }
+
             if (PlayMode == "ManVsAI" && !string.IsNullOrEmpty(FirstPlayerChoice))
             {
-                _serialPort.WriteLine($"{FirstPlayerChoice}");
+                _serialPortService.WriteLine($"{FirstPlayerChoice}");
             }
             else if (PlayMode == "ManVsMan" && !string.IsNullOrEmpty(FirstPlayerChoice) && !string.IsNullOrEmpty(SecondPlayerChoice))
             {
-                _serialPort.WriteLine($"{FirstPlayerChoice},{SecondPlayerChoice},ManVsMan");
+                _serialPortService.WriteLine($"{FirstPlayerChoice},{SecondPlayerChoice},ManVsMan");
             }
             else if (PlayMode == "AIvsAIRandom")
             {
-                _serialPort.WriteLine("AIvsAIRandom");
+                _serialPortService.WriteLine("AIvsAIRandom");
             }
             else if (PlayMode == "AIvsAIWinStrategy")
             {
-                _serialPort.WriteLine("AIvsAIWinStrategy");
+                _serialPortService.WriteLine("AIvsAIWinStrategy");
             }
+            _serialPortService.Close();
         }
 
         private void ProcessResponse(string data)

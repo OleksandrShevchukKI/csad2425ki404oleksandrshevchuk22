@@ -23,6 +23,8 @@ jobs:
       - name: Build
         run: dotnet build RockPaperScissorsClient/RockPaperScissorsClient.csproj -c Release -f:net8.0-windows10.0.19041.0
         working-directory: RockPaperScissors/RockPaperScissorsClient
+      - name: Test
+        run: dotnet test RockPaperScissors/RockPaperScissorsClient/RockPaperScissorsClient.Test/RockPaperScissorsClient.Test.csproj --no-build --logger "trx"
 
   # Job for compiling the Arduino project
   arduino-build:
