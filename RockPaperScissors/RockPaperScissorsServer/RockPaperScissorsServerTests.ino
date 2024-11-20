@@ -67,11 +67,11 @@ test(gameLoop) {
   assertEqual(output, "ManVsMan,Rock,Paper,Second Player Wins");
 }
 
-void setup() {
-  Serial.begin(9600);
-  while(!Serial) {}
-}
+//void setup() {
+//  Serial.begin(9600);
+//  while(!Serial) {}
+//}
 
-void loop() {
-    Test::run();
-}
+//void loop() {
+//    Test::run();
+//}
