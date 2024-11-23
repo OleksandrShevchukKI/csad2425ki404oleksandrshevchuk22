@@ -62,7 +62,7 @@ Doxygen documentation has been added to the project for both the client and serv
 
 ## Test coverage using Coverlet
 Using the Coverlet tool Visual Studio:
-![image](https://github.com/user-attachments/assets/c2dc89f7-a907-44eb-b2e1-e4d4d4a32712)
+![image](https://github.com/user-attachments/assets/c2dc89f7-a907-44eb-b2e1-e4d4d4a32712)   
 The low percentage of test coverage is due to the use of many private methods for initialization, loading configurations, and using the SerialPort class.
 
 ## Version Number
