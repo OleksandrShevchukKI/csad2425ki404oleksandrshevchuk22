@@ -5,7 +5,8 @@ This repository is for the CSAD project for the academic year 2024-2025. It cont
 **Task 1:** Initiate GIT repository  
 **Task 2:** Create a simple communication schema SW(client) <-> UART <-> HW(server). Create YML file  
 **Task 3:** Implement Server (HW) and Client (SW) parts of game (FEF)  
-**Task 4:** Create doxygen documentation
+**Task 4:** Create doxygen documentation  
+**Task 5:** Implement automated tests
 
 ## Student Details
 - **Name:** Oleksandr Shevchuk
@@ -61,4 +62,4 @@ Doxygen documentation has been added to the project for both the client and serv
 
 ## Version Number
 
-- **Current Version:** 4.0.0
+- **Current Version:** 5.0.0
