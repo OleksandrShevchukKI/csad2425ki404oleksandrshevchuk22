@@ -5,7 +5,8 @@ This repository is for the CSAD project for the academic year 2024-2025. It cont
 **Task 1:** Initiate GIT repository  
 **Task 2:** Create a simple communication schema SW(client) <-> UART <-> HW(server). Create YML file  
 **Task 3:** Implement Server (HW) and Client (SW) parts of game (FEF)  
-**Task 4:** Create doxygen documentation
+**Task 4:** Create doxygen documentation  
+**Task 5:** Implement automated tests
 
 ## Student Details
 - **Name:** Oleksandr Shevchuk
@@ -59,6 +60,11 @@ A Continuous Integration (CI) pipeline is configured to automate the build and t
 
 Doxygen documentation has been added to the project for both the client and server parts.
 
+## Test coverage using Coverlet
+Using the Coverlet tool Visual Studio:
+![image](https://github.com/user-attachments/assets/c2dc89f7-a907-44eb-b2e1-e4d4d4a32712)   
+The low percentage of test coverage is due to the use of many private methods for initialization, loading configurations, and using the SerialPort class.
+
 ## Version Number
 
-- **Current Version:** 4.0.0
+- **Current Version:** 5.0.0

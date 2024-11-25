@@ -40,6 +40,9 @@ jobs:
     - name: Install Arduino AVR platform
       run: arduino-cli core install arduino:avr
 
+    - name: Install Required Libraries
+      run: arduino-cli lib install "ArduinoUnit"
+
     - name: Build Arduino Project
       run: arduino-cli compile --fqbn arduino:avr:uno RockPaperScissors/RockPaperScissorsServer/RockPaperScissorsServer.ino
 

@@ -11,9 +11,6 @@
 /// Choices for the Rock-Paper-Scissors game.
 String choices[] = {"Rock", "Paper", "Scissors"};
 
-void setup() {
-  Serial.begin(9600);
-}
 
 /**
  * @brief Get a random choice from Rock, Paper, and Scissors.
@@ -60,7 +57,7 @@ String getResult(String firstChoice, String secondChoice) {
   }
 }
 
-void loop() {
+void gameLoop() {
   if (Serial.available() > 0) {
     String input = Serial.readStringUntil('\n');
     input.trim();
@@ -94,4 +91,12 @@ void loop() {
     String result = getResult(firstChoice, secondChoice);
     Serial.println(playMode + "," + firstChoice + "," + secondChoice + "," + result);
   }
+}
+
+void setup() {
+Serial.begin(9600);
+}
+
+void loop(){
+gameLoop();
 }
